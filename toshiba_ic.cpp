@@ -4,6 +4,14 @@
   Released into the public domain.
 */
 
+// freie Verwendung für private Zwecke
+// für kommerzielle Zwecke nur nach Genehmigung durch den Autor.
+
+// protected under the friendly Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+// http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+
+
 #include "toshiba_ic.h"
 #include <Arduino.h> 
 

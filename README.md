@@ -1,5 +1,6 @@
 # toshiba_ic
 Simple library for controlling the Toshiba ICs TC9162, TC9163, TC9164, and TC9459 with an Arduino.  
+
 It is tested with an Arduino Leonardo controlling one TC9163AF, one TC9164AF, and one TC9459F IC on the same DATA, CK, and ST lines.
 
 ## Usage

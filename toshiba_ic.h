@@ -20,6 +20,8 @@
 
 enum channel_t{LEFT, RIGHT, BOTH};
 
+// base class which implements the basic communication features for all relevant ICs
+// the base class is abstract, since the adress() method must be implemented for each specific IC
 class Toshiba_IC
 {
   public:
@@ -36,6 +38,7 @@ class Toshiba_IC
     void initializePins();
 };
 
+// derived class for TC9162 (address 0b0000)
 class TC9162 : public Toshiba_IC
 {
   public:
@@ -43,6 +46,7 @@ class TC9162 : public Toshiba_IC
     uint8_t address() {return 0;};
 };
 
+// derived class for TC9162 (address 0b0001)
 class TC9163 : public Toshiba_IC
 {
   public:
@@ -50,6 +54,7 @@ class TC9163 : public Toshiba_IC
     uint8_t address() {return 1;};
 };
 
+// derived class for TC9162 (address 0b0010)
 class TC9164 : public Toshiba_IC
 {
   public:
@@ -57,11 +62,12 @@ class TC9164 : public Toshiba_IC
     uint8_t address() {return 2;};
 };
 
+// derived class for TC9162 (address must be given at instantiation, allowed values are 0b10XX)
 class TC9459 : public Toshiba_IC
 {
   public:
-    TC9459(const uint8_t  dataPin, const uint8_t clockPin, const uint8_t strobePin, const uint8_t address);
-    void sendCommand(uint8_t leftVolume, uint8_t rightVolume, const bool loudness);
+    TC9459(const uint8_t dataPin, const uint8_t clockPin, const uint8_t strobePin, const uint8_t address);
+    void sendCommand(uint8_t leftAttenuation, uint8_t rightAttenuation, const bool loudness);
     uint8_t address() {return this->m_address;};
   private:
     uint8_t m_address;

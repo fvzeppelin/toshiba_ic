@@ -66,7 +66,7 @@ void Toshiba_IC::sendEnd()
 {
   digitalWrite(this->strobePin, HIGH);
   digitalWrite(this->strobePin, LOW);
-
+  // delay needed at the end as consecutive calls of sendCommand() wouldn't work
   delay(1);
 }
 
@@ -86,20 +86,18 @@ TC9459::TC9459(const uint8_t  dataPin, const uint8_t clockPin, const uint8_t str
   this->m_address = address;
 }
 
-void TC9459::sendCommand(uint8_t leftVolume, uint8_t rightVolume, const bool loudness)
+void TC9459::sendCommand(uint8_t leftAttenuation, uint8_t rightAttenuation, const bool loudness)
 {
-  if (leftVolume > 64)
-    leftVolume = 64;
-  if (rightVolume > 64)
-    rightVolume = 64;
+  // maximum value of attenuation is -90db
+  if (leftAttenuation > 90)
+    leftAttenuation = 90;
+  if (rightAttenuation > 90)
+    rightAttenuation = 90;
   
-  this->sendByte(leftVolume);
-  this->sendByte(rightVolume);
+  this->sendByte(leftAttenuation);
+  this->sendByte(rightAttenuation);
 
-  if (loudness)
-    this->sendBit(1);
-  else
-    this->sendBit(0);
+  this->sendBit(loudness);
 
   for (int i=0; i<3; i++)
     this->sendBit(0);

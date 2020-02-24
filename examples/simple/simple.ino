@@ -19,11 +19,15 @@
 
 #include <toshiba_ic.h>
 
+// Pins used to wire the ICs
 #define STROBE 2
 #define DATA 3
 #define CLOCK 4
+
+// address of my TC9459 IC
 #define VOLUMECONTROLADDRESS 8
 
+// instantiation of IC classes (pin setup included):
 TC9163 sourceSelect(DATA, CLOCK, STROBE);
 TC9164 monitorSelect(DATA, CLOCK, STROBE);
 TC9459 volumeControl(DATA, CLOCK, STROBE, VOLUMECONTROLADDRESS);
@@ -33,11 +37,15 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  // request switch 2 to be closed on both channels
   sourceSelect.sendCommand(2, BOTH);
-  monitorSelect.sendCommand(17, BOTH);
-  volumeControl.sendCommand(255,255, false);
 
+  // request switches 1 and 5 to be closed on both channels
+  monitorSelect.sendCommand(17, BOTH);
+
+  // request 0dB attenuation and no loudness
+  volumeControl.sendCommand(0, 0, false);
+
+  // do nothing but waiting
   while (1);
 }

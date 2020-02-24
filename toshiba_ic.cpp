@@ -22,7 +22,7 @@ Toshiba_IC::Toshiba_IC(const uint8_t dataPin, const uint8_t clockPin, const uint
 {
   this->dataPin = dataPin;
   this->clockPin = clockPin;
-  this->strobePin = clockPin;
+  this->strobePin = strobePin;
   this->initializePins();
 }
 
@@ -67,7 +67,7 @@ void Toshiba_IC::sendEnd()
   digitalWrite(this->strobePin, HIGH);
   digitalWrite(this->strobePin, LOW);
   // delay needed at the end as consecutive calls of sendCommand() wouldn't work
-  delay(1);
+  delay(10);
 }
 
 void Toshiba_IC::initializePins()

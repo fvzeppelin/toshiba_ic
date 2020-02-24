@@ -1,0 +1,19 @@
+# Syntax Coloring Map For toshiba_ic Library
+
+# Datatypes (KEYWORD1)
+channel_t	KEYWORD1
+TC9162	KEYWORD1
+TC9163	KEYWORD1
+TC9164	KEYWORD1
+TC9459	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+sendCommand	KEYWORD2
+address	KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
+LEFT	LITERAL1
+RIGHT	LITERAL1
+BOTH	LITERAL1

@@ -1,16 +1,19 @@
-/*
-  toshiba_ic.cpp - Library for controlling the Toshiba ICs TC9162, TC9163, TC9164, and TC9459.
-  Created by Frank von Zeppelin, February 23rd, 2020.
-  Released into the public domain.
-*/
-
-// freie Verwendung für private Zwecke
-// für kommerzielle Zwecke nur nach Genehmigung durch den Autor.
-
-// protected under the friendly Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
-// http://creativecommons.org/licenses/by-nc-sa/3.0/
-
-
+/* 
+ * This file is part of the toshiba_ic library for Arduino (https://github.com/fvzeppelin/toshiba_ic).
+ * Copyright (c) 2020 Frank von Zeppelin.
+ * 
+ * This program is free software: you can redistribute it and/or modify  
+ * it under the terms of the GNU General Public License as published by  
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "toshiba_ic.h"
 #include <Arduino.h> 
@@ -25,9 +28,6 @@ Toshiba_IC::Toshiba_IC(const uint8_t dataPin, const uint8_t clockPin, const uint
 
 void Toshiba_IC::sendCommand(const uint8_t switchConfig, const channel_t channel)
 {
-  digitalWrite(this->strobePin, LOW);
-  digitalWrite(this->clockPin, LOW);
-  
   this->sendByte(switchConfig);
 
   if ((channel == RIGHT) || (channel == BOTH))
@@ -40,13 +40,8 @@ void Toshiba_IC::sendCommand(const uint8_t switchConfig, const channel_t channel
   else
     this->sendBit(0);
   
-  for (int i=0; i<4; i++)
-    this->sendBit(((this->address)>>i)&1);
-
-  digitalWrite(this->strobePin, HIGH);
-  digitalWrite(this->strobePin, LOW);
-
-  delay(1);
+  this->sendAddress();
+  this->sendEnd();
 }
 
 void Toshiba_IC::sendByte(const uint8_t data)
@@ -56,12 +51,23 @@ void Toshiba_IC::sendByte(const uint8_t data)
 
 void Toshiba_IC::sendBit(const uint8_t data)
 {
-  if (data==0)
-    digitalWrite(this->dataPin, LOW);
-  else
-    digitalWrite(this->dataPin, HIGH);
+  digitalWrite(this->dataPin, !(data==0));
   digitalWrite(this->clockPin, HIGH);
   digitalWrite(this->clockPin, LOW);  
+}
+
+void Toshiba_IC::sendAddress()
+{
+  for (int i=0; i<4; i++)
+    this->sendBit(!!((this->address()) & (1 << i)));
+}
+
+void Toshiba_IC::sendEnd()
+{
+  digitalWrite(this->strobePin, HIGH);
+  digitalWrite(this->strobePin, LOW);
+
+  delay(1);
 }
 
 void Toshiba_IC::initializePins()
@@ -77,37 +83,27 @@ void Toshiba_IC::initializePins()
 
 TC9459::TC9459(const uint8_t  dataPin, const uint8_t clockPin, const uint8_t strobePin, const uint8_t address) : Toshiba_IC(dataPin, clockPin, strobePin)
 {
-  this->address = address;
+  this->m_address = address;
 }
 
-void TC9459::sendCommand(const uint8_t leftVolume, const uint8_t rightVolume, const bool loudness)
+void TC9459::sendCommand(uint8_t leftVolume, uint8_t rightVolume, const bool loudness)
 {
-  uint8_t leftVol = leftVolume;
-  uint8_t rightVol = rightVolume;
+  if (leftVolume > 64)
+    leftVolume = 64;
+  if (rightVolume > 64)
+    rightVolume = 64;
   
-  digitalWrite(this->strobePin, LOW);
-  digitalWrite(this->clockPin, LOW);
-  
-  if (leftVol > 64)
-    leftVol = 64;
-  if (rightVol > 64)
-    rightVol = 64;
-  
-  this->sendByte(leftVol);
-  this->sendByte(rightVol);
+  this->sendByte(leftVolume);
+  this->sendByte(rightVolume);
 
   if (loudness)
     this->sendBit(1);
   else
     this->sendBit(0);
+
   for (int i=0; i<3; i++)
     this->sendBit(0);
 
-  for (int i=0; i<4; i++)
-    this->sendBit(((this->address)>>i)&1);
-
-  digitalWrite(this->strobePin, HIGH);
-  digitalWrite(this->strobePin, LOW);
-
-  delay(1);
+  this->sendAddress();
+  this->sendEnd();
 }

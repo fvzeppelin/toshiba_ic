@@ -43,7 +43,7 @@ class TC9162 : public Toshiba_IC
 {
   public:
     TC9162(const uint8_t  dataPin, const uint8_t clockPin, const uint8_t strobePin) : Toshiba_IC(dataPin, clockPin, strobePin){}
-    uint8_t address() {return 0;};
+    uint8_t address() override {return 0;};
 };
 
 // derived class for TC9162 (address 0b0001)
@@ -51,7 +51,7 @@ class TC9163 : public Toshiba_IC
 {
   public:
     TC9163(const uint8_t  dataPin, const uint8_t clockPin, const uint8_t strobePin) : Toshiba_IC(dataPin, clockPin, strobePin){}
-    uint8_t address() {return 1;};
+    uint8_t address() override {return 1;};
 };
 
 // derived class for TC9162 (address 0b0010)
@@ -59,7 +59,7 @@ class TC9164 : public Toshiba_IC
 {
   public:
     TC9164(const uint8_t  dataPin, const uint8_t clockPin, const uint8_t strobePin) : Toshiba_IC(dataPin, clockPin, strobePin){}
-    uint8_t address() {return 2;};
+    uint8_t address() override {return 2;};
 };
 
 // derived class for TC9162 (address must be given at instantiation, allowed values are 0b10XX)
@@ -68,7 +68,7 @@ class TC9459 : public Toshiba_IC
   public:
     TC9459(const uint8_t dataPin, const uint8_t clockPin, const uint8_t strobePin, const uint8_t address);
     void sendCommand(uint8_t leftAttenuation, uint8_t rightAttenuation, const bool loudness);
-    uint8_t address() {return this->m_address;};
+    uint8_t address() override {return this->m_address;};
   private:
     uint8_t m_address;
 };

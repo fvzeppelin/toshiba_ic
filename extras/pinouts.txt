@@ -1,0 +1,53 @@
+       TC9162
+      --------
+   Vss|1   28|Vdd
+  L-S1|2   27|R-S1
+  L-S2|3   26|R-S2
+L-COM1|4   25|R-COM1
+  L-S3|5   24|R-S3
+  L-S4|6   23|R-S4
+L-COM2|7   22|R-COM2
+  L-S5|8   21|R-S5
+  L-S6|9   20|R-S6
+L-COM3|10  19|R-COM3
+  L-S7|11  18|R-S7
+L-COM4|12  17|R-COM4
+    ST|13  16|DATA
+   GND|14  15|CK
+      --------
+
+       TC9163
+      --------
+   Vss|1   28|Vdd
+  L-S1|2   27|R-S1
+  L-S2|3   26|R-S2
+  L-S3|4   25|R-S3
+L-COM1|5   24|R-COM1
+  L-S4|6   23|R-S4
+  L-S5|7   22|R-S5
+  L-S6|8   21|R-S6
+L-COM2|9   20|R-COM2
+  L-S7|10  19|R-S7
+  L-S8|11  18|R-S8
+L-COM3|12  17|R-COM3
+    ST|13  16|DATA
+   GND|14  15|CK
+      --------
+
+       TC9164
+      --------
+   Vss|1   28|Vdd
+  L-S1|2   27|R-S1
+  L-S2|3   26|R-S2
+  L-S3|4   25|R-S3
+  L-S4|5   24|R-S4
+L-COM1|6   23|R-COM1
+  L-S5|7   22|R-S5
+  L-S6|8   21|R-S6
+L-COM2|9   20|R-COM2
+  L-S7|10  19|R-S7
+  L-S8|11  18|R-S8
+L-COM3|12  17|R-COM3
+    ST|13  16|DATA
+   GND|14  15|CK
+      --------
